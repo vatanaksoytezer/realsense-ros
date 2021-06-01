@@ -23,8 +23,8 @@ aluminum peripherial evaluation case.
     <xacro:property name="d435_cam_depth_to_color_offset" value="0.015"/>
 
     <!-- The following values model the aluminum peripherial case for the
-  	D435 camera, with the camera joint represented by the actual
-  	peripherial camera tripod mount -->
+    D435 camera, with the camera joint represented by the actual
+    peripherial camera tripod mount -->
     <xacro:property name="d435_cam_width" value="0.090"/>
     <xacro:property name="d435_cam_height" value="0.025"/>
     <xacro:property name="d435_cam_depth" value="0.02505"/>
@@ -37,7 +37,7 @@ aluminum peripherial evaluation case.
     <xacro:property name="d435_mesh_x_offset" value="${d435_cam_mount_from_center_offset-d435_glass_to_front-d435_zero_depth_to_glass}"/>
 
     <!-- The following offset is relative the the physical D435 camera peripherial
-  	camera tripod mount -->
+    camera tripod mount -->
     <xacro:property name="d435_cam_depth_px" value="${d435_cam_mount_from_center_offset}"/>
     <xacro:property name="d435_cam_depth_py" value="0.0175"/>
     <xacro:property name="d435_cam_depth_pz" value="${d435_cam_height/2}"/>
@@ -48,8 +48,22 @@ aluminum peripherial evaluation case.
       <parent link="${parent}"/>
       <child link="${name}_bottom_screw_frame" />
     </joint>
-    <link name="${name}_bottom_screw_frame"/>
-
+    <link name="${name}_bottom_screw_frame">
+        <inertial>
+            <origin
+              xyz="0 0 0"
+              rpy="0 0 0" />
+            <mass
+              value="0.00001" />
+            <inertia
+              ixx="0.001"
+              ixy="0"
+              ixz="0"
+              iyy="0.001"
+              iyz="0"
+              izz="0.001" />
+          </inertial>
+    </link>
     <joint name="${name}_link_joint" type="fixed">
       <origin xyz="${d435_mesh_x_offset} ${d435_cam_depth_py} ${d435_cam_depth_pz}" rpy="0 0 0"/>
       <parent link="${name}_bottom_screw_frame"/>
@@ -62,17 +76,16 @@ aluminum peripherial evaluation case.
         <origin xyz="${d435_zero_depth_to_glass + d435_glass_to_front} ${-d435_cam_depth_py} 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
           <!-- <box size="${d435_cam_width} ${d435_cam_height} ${d435_cam_depth}"/> -->
-	        <mesh filename="package://realsense2_description/meshes/d435.dae" />
+          <mesh filename="package://realsense2_description/meshes/d435.dae" />
         </geometry>
       </visual>
-      <collision>
+      <!-- <collision>
         <origin xyz="0 ${-d435_cam_depth_py} 0" rpy="0 0 0"/>
         <geometry>
           <box size="${d435_cam_depth} ${d435_cam_width} ${d435_cam_height}"/>
         </geometry>
-      </collision>
+      </collision> -->
       <inertial>
-        <!-- The following are not reliable values, and should not be used for modeling -->
         <mass value="0.072" />
         <origin xyz="0 0 0" />
         <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257" />
@@ -87,14 +100,46 @@ aluminum peripherial evaluation case.
         <parent link="${name}_link"/>
         <child link="${name}_depth_frame" />
       </joint>
-      <link name="${name}_depth_frame"/>
+      <link name="${name}_depth_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>
+      </link>
 
       <joint name="${name}_depth_optical_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+        <!-- ! Changed orientation  -->
+        <origin xyz="0.0 0 0" rpy="0 0 0" />
+        <!-- <origin xyz="0 0 0" rpy="${-M_PI} 0 ${-M_PI}" /> -->
         <parent link="${name}_depth_frame" />
         <child link="${name}_depth_optical_frame" />
       </joint>
-      <link name="${name}_depth_optical_frame"/>
+      <link name="${name}_depth_optical_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>
+      </link>
 
       <!-- camera left IR joints and links -->
       <joint name="${name}_infra1_joint" type="fixed">
@@ -102,14 +147,46 @@ aluminum peripherial evaluation case.
         <parent link="${name}_link" />
         <child link="${name}_infra1_frame" />
       </joint>
-      <link name="${name}_infra1_frame"/>
+      <link name="${name}_infra1_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>
+      </link>
 
       <joint name="${name}_infra1_optical_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+        <!-- ! Changed orientation  -->
+        <origin xyz="0.0 0 0" rpy="0 0 0" />
+        <!-- <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" /> -->
         <parent link="${name}_infra1_frame" />
         <child link="${name}_infra1_optical_frame" />
       </joint>
-      <link name="${name}_infra1_optical_frame"/>
+      <link name="${name}_infra1_optical_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>
+      </link>
 
       <!-- camera right IR joints and links -->
       <joint name="${name}_infra2_joint" type="fixed">
@@ -117,14 +194,46 @@ aluminum peripherial evaluation case.
         <parent link="${name}_link" />
         <child link="${name}_infra2_frame" />
       </joint>
-      <link name="${name}_infra2_frame"/>
-
+      <link name="${name}_infra2_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>      
+      </link>
+      
       <joint name="${name}_infra2_optical_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+        <!-- ! Changed orientation  -->
+        <origin xyz="0.0 0 0" rpy="0 0 0" />
+        <!-- <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" /> -->
         <parent link="${name}_infra2_frame" />
         <child link="${name}_infra2_optical_frame" />
       </joint>
-      <link name="${name}_infra2_optical_frame"/>
+      <link name="${name}_infra2_optical_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>
+      </link>
 
       <!-- camera color joints and links -->
       <joint name="${name}_color_joint" type="fixed">
@@ -132,14 +241,46 @@ aluminum peripherial evaluation case.
         <parent link="${name}_link" />
         <child link="${name}_color_frame" />
       </joint>
-      <link name="${name}_color_frame"/>
+      <link name="${name}_color_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>
+      </link>
 
       <joint name="${name}_color_optical_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+        <!-- ! Changed orientation  -->
+        <origin xyz="0.0 0 0" rpy="0 0 0" />
+        <!-- <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" /> -->
         <parent link="${name}_color_frame" />
         <child link="${name}_color_optical_frame" />
       </joint>
-      <link name="${name}_color_optical_frame"/>
+      <link name="${name}_color_optical_frame">
+        <inertial>
+          <origin
+            xyz="0 0 0"
+            rpy="0 0 0" />
+          <mass
+            value="0.00001" />
+          <inertia
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001" />
+        </inertial>
+      </link>
     </xacro:if>
 
     <xacro:if value="${add_plug}">
